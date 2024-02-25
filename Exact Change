@@ -1,0 +1,50 @@
+change = float(input())
+
+if change <= 0: 
+    print('No change')
+
+dollars = change / 100
+if dollars < 1:
+    print(end='')
+elif 1 <= dollars < 2: 
+    print(int(dollars), 'Dollar')
+else:
+    print(int(dollars), 'Dollars')
+
+change_left = change % 100
+quarters = change_left / 25
+if quarters < 1: 
+    print(end='')
+elif 1 <= quarters < 2: 
+    print(int(quarters), 'Quarter')
+else:
+    print(int(quarters), 'Quarters')
+  
+change_left = change_left % 25
+dimes = change_left / 10
+if dimes < 1: 
+    print(end='')
+elif 1 <= dimes < 2: 
+    print(int(dimes), 'Dime')
+else: 
+    print(int(dimes), 'Dimes')
+
+
+change_left = change_left % 10
+nickels = change_left / 5
+if nickels < 1: 
+    print(end='')
+elif 1 <= nickels < 2: 
+    print(int(nickels), 'Nickel')
+else: 
+    print(int(nickels), 'Nickel')
+
+    
+change_left = change_left % 5
+pennies = change_left
+if pennies < 1: 
+    print(end='')
+elif 1 <= pennies < 2: 
+    print(int(pennies), 'Penny')
+else: 
+    print(int(pennies), 'Pennies')
