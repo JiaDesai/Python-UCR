@@ -1,0 +1,16 @@
+word = input()
+original = list(word)
+space = original.count(' ')
+
+while space > 0: 
+    original.remove(' ')
+    space -= 1
+
+palindrome = original[:]
+palindrome.reverse()
+
+if original == palindrome:
+    print(f'palindrome: {word}')
+else: 
+    print(f'not a palindrome: {word}')
+    
