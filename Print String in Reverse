@@ -1,0 +1,9 @@
+userInput = ""
+while (userInput != "done" or userInput != "d" or userInput != "Done"): 
+    userInput = input()
+    if (userInput == "done" or userInput == "d" or userInput == "Done"): 
+        break
+    revInput = ""
+    for i in range(1, len(userInput)+1):
+        revInput += userInput[-i]
+    print(revInput)
