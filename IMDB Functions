@@ -1,0 +1,64 @@
+import sys
+
+def make_title_dict():    
+    titleActorDict = {} # create an empty dict (movie title -> key, list of actor(s) )    
+    with open("imdb.txt", "r") as fHandle: # open file for reading
+        lines = fHandle.readlines() # list of lines from the input file 
+    
+    for index in range (0, len(lines), 2):
+        title = lines[index].strip().lower() # movie name -> key
+        actor = lines[index+1].strip().lower() # actor name -> value       
+        if title in titleActorDict:  # already in Dict
+            titleActorDict[title].append(actor)     
+        else :  # its not in the Dict yet 
+            titleActorDict[title] = [actor] # list of actors, add that one actor to begin with  
+    return titleActorDict
+
+def getNumFilms(titleActorDict): 
+    return len(titleActorDict) 
+    
+def getLongestCastList(titleActorDict): 
+    longest_cast = 0
+    for actors in titleActorDict.values(): 
+        cast = len(actors)
+        if cast >= longest_cast:
+            longest_cast = cast
+    return longest_cast
+
+def getShortestCastList(titleActorDict): 
+    shortest_cast = 1000
+    for actors in titleActorDict.values(): 
+        cast = len(actors)
+        if cast <= shortest_cast:
+            shortest_cast = cast
+    return shortest_cast
+
+def lookupActor(titleActorDict, movie, actor): 
+    if actor in titleActorDict[movie]:
+        return True
+    else: 
+        return False
+    
+def getCommonActors(titleActorDict, movie1, movie2):
+    CommonActors = []
+    for actor1 in titleActorDict[movie1]:
+        for actor2 in titleActorDict[movie2]:
+            if actor1 == actor2: 
+                CommonActors.append(actor1)
+    return CommonActors
+
+def getCommonActors_v2(titleActorDict, movie1, movie2, movie3):
+    CommonActors_v2 = []
+    for actor1 in titleActorDict[movie1]:
+        for actor2 in titleActorDict[movie2]:
+            for actor3 in titleActorDict[movie3]:
+                if (actor1 == actor2) and (actor2 == actor3): 
+                    CommonActors_v2.append(actor1)
+    return CommonActors_v2
+
+def getActorMovieList(titleActorDict, actor):
+    MovieList = []
+    for movie in titleActorDict.keys():
+        if actor in titleActorDict[movie]:
+            MovieList.append(movie)
+    return MovieList
