@@ -1,0 +1,82 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.read_csv("imdb_top_1000.csv")
+df.head()
+
+
+convert_imdb = df["IMDB_Rating"] * 10
+greatest_diff = 0
+diff_movie = ''
+diff_imdb = 0
+diff_meta = 0
+for index, movie in enumerate(df.Series_Title):
+    diff = abs(convert_imdb[index]-df.Meta_score[index])
+    if diff > greatest_diff:
+        greatest_diff = diff
+        diff_movie = movie
+        diff_imdb = df.IMDB_Rating[index]
+        diff_meta = df.Meta_score[index]
+
+print(f'The movie that had the greatest difference in IMDB rating versus Meta score is "{diff_movie}", 
+      which has a difference of {int(greatest_diff)}. Its IMDB Rating was {diff_imdb}, and its Meta 
+      score was {diff_meta}.')
+
+
+runtime = df.Runtime.str.strip(' min').astype(int)
+
+def year_runtime(rlse_year): 
+    avg_runtime = (runtime[df.Released_Year == rlse_year]).mean()
+    return avg_runtime
+
+shortest_rt = 1000
+shortrt_yr = ''
+for year in df.Released_Year:
+    yr_rt = year_runtime(year)
+    if yr_rt < shortest_rt:
+        shortest_rt = yr_rt
+        shortrt_yr = year
+
+print(f"Shortest average runtime for a single year: {shortest_rt}")
+print(f"Year that has the shortest avg runtime: {shortrt_yr}")
+
+
+revenue = []
+for rev in df.Gross:
+    final_rev = ''
+    for number in str(rev): 
+        if '0' <= number <= '9':
+            final_rev += number
+    revenue.append(final_rev)
+for index, rev in enumerate(revenue): 
+    if rev == '':
+        revenue[index] = 0
+    else: 
+        revenue[index] = int(rev)
+
+def director_earnings(director): 
+    earnings = 0
+    for index, name in enumerate(df.Director): 
+        if name == director: 
+            earnings += revenue[index]
+    return earnings
+
+max_earn = 0
+maxearn_dir = ''
+ttl_earning = 0
+for Director in df.Director: 
+    ttl_earning = director_earnings(Director)
+    if ttl_earning > max_earn: 
+        max_earn = ttl_earning
+        maxearn_dir = Director
+
+print(f'Name of director with greatest earning: {maxearn_dir}')
+print(f'Total combined earnings: {max_earn}')
+
+
+middle = int(len(df.Released_Year) / 2)
+df.Released_Year[(middle-30):(middle+30)].value_counts(sort=False).plot.barh()
+plt.xlabel('Number of Movies')
+plt.ylabel('Release Year')
+plt.title('Number of Movies released each Year, in the IMDB Top 1000 list')
+
+
