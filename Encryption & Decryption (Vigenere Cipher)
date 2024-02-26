@@ -1,0 +1,49 @@
+import string
+
+def preprocess(plaintext):
+    translator=str.maketrans('','',string.punctuation)
+    plaintext=plaintext.translate(translator).lower()
+    processed = plaintext.lower().replace(" ", "")
+    return processed
+
+def repeat_to_at_least_length(key, length):
+    key_msg = ''
+    i = 0
+    while i < length:
+        index = i % (len(key))
+        key_msg += key[index]
+        i += 1
+    return key_msg
+
+def shift(ch,k):
+     return chr(ord('a')+( ord(ch)-ord('a')+k)%26)
+
+
+def char_encrypt(plaintextchar,keychar):
+    key_val = ord(keychar) - ord('a')
+    enc_char = shift(plaintextchar, key_val)
+    return enc_char
+
+def char_decrypt(ciphertextchar,keychar):
+    key_val = -(ord(keychar) - ord('a'))
+    dec_char = shift(ciphertextchar, key_val)
+    return dec_char
+
+def vig_encrypt(plaintext,key):
+    enc_processed = preprocess(plaintext)
+    full_key = repeat_to_at_least_length(key, len(enc_processed))
+    index = 0
+    encryption = ''
+    while index < len(enc_processed):
+        encryption += char_encrypt(enc_processed[index],full_key[index])
+        index += 1
+    return encryption
+
+def vig_decrypt(ciphertext,key):
+    full_key = repeat_to_at_least_length(key, len(ciphertext))
+    index = 0
+    decryption = ''
+    while index < len(ciphertext):
+        decryption += char_decrypt(ciphertext[index],full_key[index])
+        index += 1
+    return decryption
