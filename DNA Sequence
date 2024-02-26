@@ -1,0 +1,27 @@
+# Define your function here 
+def computeLCS(dna_sequence, STR):
+    index = 0
+    counter = 0
+    max_counter = 0
+    for letter in dna_sequence:
+        if letter == STR[index]:
+            index += 1
+        else:
+            index = 0
+            counter = 0
+        if index == 4:
+            counter += 1
+            index = 0
+        if counter > max_counter: 
+            max_counter = counter
+    return max_counter
+    
+if __name__ == "__main__" :   
+    
+    dna_sequence = input()     # obtain DNA sequence 
+    STR = input()     # obtain STR from input  (ex. AGAT ) 
+
+    # call function to compute the number of consecutive (back-to-back) occurrence of STR in the string dna_sequence 
+    print (computeLCS (dna_sequence, STR) )  
+  
+    
