@@ -1,0 +1,14 @@
+import csv
+
+user_file = input()
+file = open(user_file)
+contents = csv.reader(file, delimiter=',')
+output = {}
+for words in contents: 
+    for word in words:  
+        output[word] = words.count(word)
+
+for key, value in output.items():
+    print(f'{key} - {value}')
+
+file.close()
