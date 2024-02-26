@@ -1,0 +1,23 @@
+file = open('imdb.txt')
+contents = file.readlines()
+movie_dict = {}
+for index, line in enumerate(contents):
+    contents[index] = line.strip('\n')
+    if index % 2 != 0:
+        movie_dict[contents[index]] = []
+
+def actor_movies(actor_name):
+    for index, line in enumerate(contents):
+        if contents[index] == actor_name:
+            movie_dict[actor_name].append(contents[index-1])
+    movies = movie_dict[actor_name]
+    for movie in movies:
+        print(movie)
+    return ''
+    
+user_input = input()
+print('Enter actor\'s name: ', user_input)
+print(f'{user_input} has starred in the following movies:')
+print(actor_movies(user_input))
+
+file.close()
