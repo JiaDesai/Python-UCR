@@ -1,0 +1,38 @@
+with open("Global_Temperature_Data_File.txt", "r") as fileHandle: # open file 
+    lines = fileHandle.readlines() 
+    # to remove the \t and \n
+    for index, word in enumerate(lines): 
+        lines[index] = word.split('\t') 
+    for words in lines: 
+        for index, word in enumerate(words): 
+            if '\n' in word: 
+                words[index] = word.strip('\n')
+                
+    # to calc avg land and ocean temperatures
+    numReadings = len(lines)
+    avgOceanTemp = 0
+    avgLandTemp = 0 
+    for element in lines: 
+        for index, number in enumerate(element): 
+            if index == 1: 
+                avgLandTemp += float(number)
+            if index == 2: 
+                avgOceanTemp += float(number)
+    avgOceanTemp = avgOceanTemp / numReadings
+    avgLandTemp = avgLandTemp / numReadings
+    print ("Average land temperature anomaly: ", avgLandTemp )
+    print ("Average ocean temperature anomaly: ", avgOceanTemp )
+   
+    # to calc std dev of land and ocean temperatures
+    landVariance = 0
+    oceanVariance = 0
+    for element in lines: 
+        for index, number in enumerate(element): 
+            if index == 1: 
+                landVariance += (float(number) - avgLandTemp) ** 2
+            if index == 2: 
+                oceanVariance += (float(number) - avgOceanTemp) ** 2
+    landVariance = landVariance / (numReadings - 1)
+    oceanVariance = oceanVariance / (numReadings - 1)
+    print ("Land temperature anomaly variance: ", landVariance) 
+    print ("Ocean temperature anomaly variance: ", oceanVariance) 
