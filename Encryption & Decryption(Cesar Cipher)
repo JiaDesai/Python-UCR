@@ -1,0 +1,28 @@
+import string
+
+"""This function should be called by encrypt before encryption. """
+def preprocess(plaintext):
+    translator=str.maketrans('','',string.punctuation)
+    plaintext=plaintext.translate(translator).lower()
+    return plaintext.lower().replace(" ", "")
+
+""" Given the character 'ch' and an integer k,
+    representing the number of positions to shift this character,
+    return the result of shifting 'ch' by 'k' positions"""
+def shift(ch,k):
+     return chr(97+( ord(ch)-97+k)%26) # equivalent to chr(ord('a')+( ord(ch)-ord('a')+k)%26)
+
+""" Encrypt with Cesar cipher """
+def encrypt(plaintext,k):
+    processed = preprocess(plaintext)
+    enc_output = ''
+    for character in processed: 
+        enc_output += shift(character, k)
+    return enc_output
+   
+""" Decrypt with Cesar cipher """
+def decrypt(ciphertext,k):
+    dec_output = ''
+    for character in ciphertext: 
+        dec_output += shift(character, -k)
+    return dec_output
